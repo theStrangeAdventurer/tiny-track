@@ -1,0 +1,16 @@
+export const EscSequences = {
+  Black: '\x1b[30m',
+  Red: '\x1b[31m',
+  RedBright: '\x1b[91m',
+  Green: '\x1b[32m',
+  GreenBright: '\x1b[92m',
+  Yellow: '\x1b[33m',
+  YellowBright: '\x1b[93m',
+  Blue: '\x1b[34m',
+  Magenta: '\x1b[35m',
+  MagentaBright: '\x1b[95m',
+  Cyan: '\x1b[36m',
+  Gray: '\x1b[90m',
+  GrayBright: '\x1b[37m',
+  Reset: '\x1b[0m',
+};
