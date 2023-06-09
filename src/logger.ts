@@ -38,17 +38,23 @@ const wrapLvl = (
   }
 };
 
-export const consoleToStream = (lvl: TinyTrackLevel) => {
-  return {
-    write(msg: string) {
-      if (['error', 'warn'].includes(lvl)) {
-        console.error(msg);
-        return;
-      }
-      console.log(msg);
-    },
-  };
+const wrapMetaName = (name: string, options: SerializerOptions) => {
+  const _val = `[${name}]`;
+  if (!options.colorize) {
+    return _val;
+  }
+  return colorizeFn(EscSequences.Gray, _val);
 };
+
+const consoleToStream = (lvl: TinyTrackLevel) => ({
+  write(msg: string) {
+    if (['error', 'warn'].includes(lvl) && console.error) {
+      console.error(msg);
+      return;
+    }
+    console.log(msg);
+  },
+});
 
 export const tinyTrack: TinyTrack =
   (options: TinyTrackOptions) =>
@@ -75,6 +81,7 @@ export const tinyTrack: TinyTrack =
         colorize,
         stream,
         level,
+        meta = {},
         serializer: optSerializer,
       }) => {
         const shouldLogLevel =
@@ -102,6 +109,8 @@ export const tinyTrack: TinyTrack =
             case 'pretty':
               if (isFirstIteration) {
                 acc = wrapLvl(lvl, _serializerOpts, acc);
+                if (meta?.name)
+                  acc = `${wrapMetaName(meta?.name, _serializerOpts)} ${acc}`;
               }
 
               const arr = [];
@@ -120,27 +129,37 @@ export const tinyTrack: TinyTrack =
 
               break;
             case 'json':
+              const sep = ', ';
               if (isFirstIteration) {
-                acc =
-                  `${wrapBracket('{ ', _serializerOpts)}"level": "${lvl}"` +
-                  `, "message":"${acc.trim()}"`;
+                const message = acc;
+
+                acc = `${wrapBracket('{ ', _serializerOpts)}"level": "${lvl}"`;
+
+                if (meta?.name) {
+                  acc += `${sep}"name": "${meta?.name}"`;
+                }
+
+                acc += `${sep}"time":${+new Date()}${sep}"message":"${message.trim()}"`;
+
                 if (replacers.length) {
                   // If we have more than 0 replacers define "data" field
-                  acc += `, "data":${wrapBracket('[ ', _serializerOpts)}`;
+                  acc += `${sep}"data":${wrapBracket('[ ', _serializerOpts)}`;
                 }
               } else if (!isFirstIteration && part) {
                 acc += `${_serializer(part, _serializerOpts)}`;
-                if (!isLastIteration && strParts[index + 1]) acc += ', ';
+                if (!isLastIteration && strParts[index + 1]) acc += sep;
               }
+
               if (replacer) {
                 acc += `${_serializer(replacer, _serializerOpts)}`;
-                if (!isLastIteration && strParts[index + 1]) acc += ', ';
+                if (!isLastIteration && strParts[index + 1]) acc += sep;
               }
 
               if (isLastIteration && replacers.length) {
                 // If we have more than 0 close "data" array, before closing object
                 acc += wrapBracket(' ]', _serializerOpts);
               }
+
               if (isLastIteration) {
                 acc += wrapBracket(' }', _serializerOpts);
               }
@@ -150,9 +169,12 @@ export const tinyTrack: TinyTrack =
           return acc;
         }, startMsg);
 
-        (stream || consoleToStream(lvl)).write(
-          result + (format === 'json' ? '\n' : '\n\n'),
-        );
+        const lineSeparators = {
+          json: '\n',
+          pretty: '\n\n',
+        };
+
+        (stream || consoleToStream(lvl)).write(result + lineSeparators[format]);
       },
     );
   };

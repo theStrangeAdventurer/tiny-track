@@ -9,6 +9,7 @@ module.exports = {
     extends: ['plugin:@typescript-eslint/recommended', 'prettier'],
   
     ignorePatterns: [
+      '__tests__',
       'dist',
       'node_modules',
       '.eslintrc.js',
