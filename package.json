@@ -8,6 +8,15 @@
     "build": "rm -rf ./build && npm run test && tsc -p tsconfig.json",
     "test": "jest"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:theStrangeAdventurer/tiny-track.git"
+  },
+  "files": [
+    "build",
+    "src",
+    "static"
+  ],
   "keywords": [
     "logger",
     "stream",
