@@ -1,4 +1,5 @@
 # Tiny Track
+[![npm version](https://img.shields.io/npm/v/tiny-track)](https://www.npmjs.com/package/tiny-track)
 
 A minimalistic dependency free logger that supports the transport of logs into multiple streams, and can also work both in the browser and in nodejs environments.
 
