@@ -151,6 +151,7 @@ export const tinyTrack: TinyTrack =
               }
 
               if (replacer) {
+                if (!isFirstIteration) acc += sep;
                 acc += `${_serializer(replacer, _serializerOpts)}`;
                 if (!isLastIteration && strParts[index + 1]) acc += sep;
               }

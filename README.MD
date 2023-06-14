@@ -1,9 +1,10 @@
 # Tiny Track
+
 [![npm version](https://img.shields.io/npm/v/tiny-track)](https://www.npmjs.com/package/tiny-track)
 
 A minimalistic dependency free logger that supports the transport of logs into multiple streams, and can also work both in the browser and in nodejs environments.
 
-Besides, it provides other minimalistic approach to use logger through using tagged template: 
+Besides, it provides other minimalistic approach to use logger through using tagged template:
 
 ```js
 import { tinyTrack } from 'tiny-track';
@@ -16,15 +17,15 @@ const tt = tinyTrack({
 }})
 ```
 
-Where `tt` is [Tagged Template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates), which can take any numbers of placeholders with data you want to log. 
+Where `tt` is [Tagged Template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates), which can take any numbers of placeholders with data you want to log.
 
 ## Pretty format example
 
-![pretty format demo](./static/pretty-demo.gif)
+![pretty format demo](https://storage.yandexcloud.net/zajtsev-tts/tiny-track/pretty-demo.gif)
 
 ## JSON format example
 
-![json format demo](./static/json-demo.gif)
+![json format demo](https://storage.yandexcloud.net/zajtsev-tts/tiny-track/json-demo.gif)
 
 ## Install
 
@@ -45,7 +46,7 @@ const tt = tinyTrack({
 }})
 ```
 
-```js 
+```js
 
 // Or multiple streams
 
@@ -72,9 +73,11 @@ const tt = tinyTrack({
 
 ```
 
-## Log Levels 
+## Log Levels
+
 There are 4 log levels
+
 - info (default) - `tt\`<log-message>[...<any-data>]\``
 - error - `tt\`!<log-message>[...<any-data>]\``,  The exclamation mark `!` at the beginning indicates that is error
-- wann  - `tt\`w!<log-message>[...<any-data>]\``, The message should start with  `w!`
-- debug  - `tt\`d!<log-message>[...<any-data>]\``, The message should start with `d!`
+- wann - `tt\`w!<log-message>[...<any-data>]\``, The message should start with  `w!`
+- debug - `tt\`d!<log-message>[...<any-data>]\``, The message should start with `d!`
